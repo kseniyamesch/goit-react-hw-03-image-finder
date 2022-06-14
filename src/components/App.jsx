@@ -21,7 +21,7 @@ export class App extends Component {
   };
 
   onSearchSubmit = data => {
-    this.setState({ searchQuery: data });
+    this.setState({ searchQuery: data, page: 1, data: []});
   };
 
   componentDidUpdate(_, prevState) {
