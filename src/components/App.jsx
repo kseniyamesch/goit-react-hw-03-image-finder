@@ -21,7 +21,7 @@ export class App extends Component {
   };
 
   onSearchSubmit = data => {
-    this.setState({ searchQuery: data, page: 1, data: []});
+    this.setState({ searchQuery: data, page: 1, data: [] });
   };
 
   componentDidUpdate(_, prevState) {
@@ -29,16 +29,15 @@ export class App extends Component {
       this.state.searchQuery !== prevState.searchQuery ||
       this.state.page !== prevState.page
     ) {
-      // if(this.state !== prevState)
       this.setState({ status: 'pending' });
       getRequest(this.state.searchQuery, this.state.page)
         .then(response => {
           if (response.data.totalHits !== 0) {
-            this.setState({
-              data: response.data.hits,
+            this.setState(prevState => ({
+              data: [...prevState.data, ...response.data.hits],
               status: 'resolved',
               totalHits: response.data.totalHits,
-            });
+            }));
           } else {
             this.setState({
               error: `${this.state.searchQuery} not found!`,
